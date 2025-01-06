@@ -34,10 +34,10 @@ def signup():
 def login():
    request_body = request.get_json()
    email = request_body.get("email")
-   password= request_body.get("password")
+   password= request_body.get("password") 
 
    if not email or not password:
-      return jsonify({"msg": "all fields are qrequired"})
+      return jsonify({"msg": "All fields are required"})
    user = User.query.filter_by(email=email, password=password).first()
 
    if not user:

@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
-import { Context } from "../store/appContext";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
     const [data, setData] = useState({})
-    const { store, actions } = useContext(Context)
+    const[alertMessage, setAlertMesssage] = useState(null)
     const navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -18,14 +17,25 @@ export const SignUp = () => {
         })
             .then((response) => {
                 console.log(response);
-                if (!response.ok) {
-
-                }
+                return response.json()
             })
 
             .then(data => {
                 console.log(data);
+                if (data.msg == "User already registered") {
+                    setAlertMesssage(
+                        <div ClassName="alert alert-warning" role="alert">User already registered</div>
+                    )
+                }
 
+                if (data.msg == "User created") {
+                    setInterval(() => {
+                        navigate="/login"
+                        setAlertMesssage(
+                            <div className="alert alert-success">User created</div>
+                        )
+                    }, 2000);
+                }
             })
     }
 
@@ -41,6 +51,7 @@ export const SignUp = () => {
                 <label htmlFor="imputPassword" className="form-label">Password:</label>
                 <input type="password" name="password" className="form-control" id="imputPassword" onChange={e => handleChange} />
             </div>
+            {alertMessage}
             <button type="submit" className="btn btn-dark">Submit</button>
         </form>
     )
