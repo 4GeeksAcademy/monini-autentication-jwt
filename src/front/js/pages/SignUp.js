@@ -7,10 +7,9 @@ export const SignUp = () => {
     const navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault()
-    }
-    const handleChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value })
-        fetch(`${process.env.BACKEND_URL}/api/signUp`, {
+        console.log(data);
+        
+        fetch(`${process.env.BACKEND_URL}api/signup`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(data),
@@ -24,19 +23,25 @@ export const SignUp = () => {
                 console.log(data);
                 if (data.msg == "User already registered") {
                     setAlertMesssage(
-                        <div ClassName="alert alert-warning" role="alert">User already registered</div>
+                        <div className="alert alert-warning" role="alert">User already registered</div>
                     )
                 }
 
                 if (data.msg == "User created") {
                     setInterval(() => {
-                        navigate="/login"
-                        setAlertMesssage(
-                            <div className="alert alert-success">User created</div>
-                        )
+                        navigate("/login")
                     }, 2000);
+
+                    setAlertMesssage(
+                        <div className="alert alert-success" role="alert">User created</div>
+                    )
                 }
+
             })
+    }
+    const handleChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value })
+        
     }
 
 
@@ -44,12 +49,12 @@ export const SignUp = () => {
         <form className="container" onSubmit={handleSubmit}>
             <div className="mb-3">
                 <label htmlFor="imputEmail" className="form-label">Email:</label>
-                <input type="email" name="email" className="form-control" id="imputEmail" onChange={e => handleChange} />
+                <input type="email" name="email" className="form-control" id="imputEmail" onChange={e => handleChange(e)} />
             </div>
 
             <div className="mb-3">
                 <label htmlFor="imputPassword" className="form-label">Password:</label>
-                <input type="password" name="password" className="form-control" id="imputPassword" onChange={e => handleChange} />
+                <input type="password" name="password" className="form-control" id="imputPassword" onChange={e => handleChange(e)} />
             </div>
             {alertMessage}
             <button type="submit" className="btn btn-dark">Submit</button>
