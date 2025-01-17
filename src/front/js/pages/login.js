@@ -33,6 +33,7 @@ export const Login = () => {
 
                 if (data.token) {
                     localStorage.setItem("token", data.token)
+                    // localStorage.setItem("name", data.name)
                     navigate("/private")
                 }
             })
